@@ -46,7 +46,7 @@ public class SecurityConfig {
 
                         // 6. Buka jalur error agar Postman menampilkan 404 Not Found (bukan 403
                         // Forbidden)
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/", "/error").permitAll()
 
                         // Endpoint lain di luar 5 tabel di atas akan tetap diblokir
                         .anyRequest().authenticated());

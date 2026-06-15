@@ -22,4 +22,7 @@ public class DesainPesanan {
 
     @Column(name = "tanggal_upload")
     private String tanggalUpload;
+
+    @Column(name = "status_pesanan", nullable = false)
+    private String statusPesanan = "Baru";
 }
