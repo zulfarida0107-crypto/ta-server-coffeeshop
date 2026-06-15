@@ -33,6 +33,7 @@ public class MenuProdukService {
             menu.setDeskripsi(menuDetails.getDeskripsi());
             menu.setKategori(menuDetails.getKategori());
             menu.setGambar(menuDetails.getGambar());
+            menu.setBagian(menuDetails.getBagian());
             return repository.save(menu);
         });
     }

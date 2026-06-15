@@ -17,6 +17,55 @@ public class PesanKontakController {
     @Autowired
     private PesanKontakService service;
 
+    @Autowired
+    private org.springframework.mail.javamail.JavaMailSender mailSender;
+
+    @org.springframework.beans.factory.annotation.Value("${spring.mail.password:}")
+    private String mailPassword;
+
+    @PostMapping("/{id}/balas")
+    public ResponseEntity<ApiResponse> kirimBalasan(@PathVariable Long id, @RequestBody java.util.Map<String, String> request) {
+        String isiBalasan = request.get("pesan");
+        if (isiBalasan == null || isiBalasan.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Balasan tidak boleh kosong", null));
+        }
+
+        return service.findById(id)
+                .map(pesan -> {
+                    try {
+                        if (mailPassword == null || mailPassword.contains("placeholder") || mailPassword.trim().isEmpty()) {
+                            System.out.println("==================================================");
+                            System.out.println("[SIMULASI EMAIL] Mengirim email terprogram...");
+                            System.out.println("Dari: zulfarida0107@gmail.com");
+                            System.out.println("Kepada: " + pesan.getEmail());
+                            System.out.println("Subjek: Balasan: " + pesan.getSubjek());
+                            System.out.println("Isi Pesan: " + isiBalasan);
+                            System.out.println("==================================================");
+                            pesan.setSudahDibalas(true);
+                            service.save(pesan);
+                            return ResponseEntity.ok(new ApiResponse(true, "Simulasi balasan berhasil terkirim langsung!", null));
+                        }
+
+                        org.springframework.mail.SimpleMailMessage message = new org.springframework.mail.SimpleMailMessage();
+                        message.setFrom("zulfarida0107@gmail.com");
+                        message.setTo(pesan.getEmail());
+                        message.setSubject("Balasan: " + pesan.getSubjek());
+                        message.setText(isiBalasan);
+                        
+                        mailSender.send(message);
+                        pesan.setSudahDibalas(true);
+                        service.save(pesan);
+                        return ResponseEntity.ok(new ApiResponse(true, "Balasan berhasil dikirim ke " + pesan.getEmail(), null));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body(new ApiResponse(false, "Gagal mengirim email: " + e.getMessage(), null));
+                    }
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse(false, "Pesan not found", null)));
+    }
+
     @GetMapping
     public ResponseEntity<ApiResponse> getAllPesanKontak() {
         List<PesanKontak> data = service.findAll();

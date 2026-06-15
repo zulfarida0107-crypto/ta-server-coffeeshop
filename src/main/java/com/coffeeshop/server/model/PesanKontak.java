@@ -25,4 +25,7 @@ public class PesanKontak {
 
     @Column(name = "tanggal_dikirim")
     private String tanggalDikirim;
+
+    @Column(name = "sudah_dibalas", nullable = false, columnDefinition = "tinyint(1) default 0")
+    private Boolean sudahDibalas = false;
 }

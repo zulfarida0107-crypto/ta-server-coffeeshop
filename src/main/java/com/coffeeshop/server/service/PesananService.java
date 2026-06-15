@@ -23,6 +23,9 @@ public class PesananService {
     }
 
     public Pesanan save(Pesanan pesanan) {
+        if (pesanan.getStatusPesanan() == null || pesanan.getStatusPesanan().trim().isEmpty()) {
+            pesanan.setStatusPesanan("Baru");
+        }
         return repository.save(pesanan);
     }
 

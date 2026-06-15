@@ -24,7 +24,7 @@ public class Pesanan {
     private Double totalHarga;
 
     @Column(name = "status_pesanan", nullable = false)
-    private String statusPesanan;
+    private String statusPesanan = "Baru";
 
     @Column(name = "tanggal_pesanan")
     private String tanggalPesanan;

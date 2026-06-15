@@ -21,7 +21,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configure(http))
+                .cors(cors -> {})
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
@@ -47,6 +47,9 @@ public class SecurityConfig {
                         // 6. Buka jalur error agar Postman menampilkan 404 Not Found (bukan 403
                         // Forbidden)
                         .requestMatchers("/", "/error").permitAll()
+
+                        // 7. Buka jalur actuator untuk cek kesehatan server
+                        .requestMatchers("/actuator/**").permitAll()
 
                         // Endpoint lain di luar 5 tabel di atas akan tetap diblokir
                         .anyRequest().authenticated());

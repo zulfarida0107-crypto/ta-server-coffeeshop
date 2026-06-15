@@ -25,4 +25,7 @@ public class MenuProduk {
 
     @Column(name = "gambar", columnDefinition = "TEXT")
     private String gambar;
+
+    @Column(name = "bagian")
+    private String bagian;
 }
