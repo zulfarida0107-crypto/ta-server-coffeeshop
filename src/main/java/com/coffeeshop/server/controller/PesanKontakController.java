@@ -38,6 +38,24 @@ public class PesanKontakController {
                 .body(new ApiResponse(true, "Pesan berhasil ditambahkan", saved));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse> updatePesanKontak(@PathVariable Long id, @RequestBody PesanKontak pesanDetails) {
+        return service.findById(id)
+                .map(pesan -> {
+                    // Update nilai-nilainya dengan data baru dari Postman
+                    pesan.setNama(pesanDetails.getNama());
+                    pesan.setEmail(pesanDetails.getEmail());
+                    pesan.setSubjek(pesanDetails.getSubjek());
+                    pesan.setPesan(pesanDetails.getPesan());
+
+                    // Simpan kembali ke database
+                    PesanKontak updatedPesan = service.save(pesan);
+                    return ResponseEntity.ok(new ApiResponse(true, "Pesan berhasil diupdate", updatedPesan));
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse(false, "Pesan not found", null)));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deletePesanKontak(@PathVariable Long id) {
         if (service.delete(id)) {

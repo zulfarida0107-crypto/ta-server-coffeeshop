@@ -21,18 +21,35 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configure(http))
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                // Endpoint Publik untuk Customer (CI4 Web)
-                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/menu-produk").permitAll()
-                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/pesanan").permitAll()
-                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/pesan-kontak").permitAll()
-                // Endpoint lainnya wajib menyertakan token (Admin/Flutter)
-                .anyRequest().authenticated()
-            );
+                .cors(cors -> cors.configure(http))
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll() // Jalur login/register
+
+                        // --- BUKA SEMUA AKSES CRUD (GET, POST, PUT, DELETE) SEMENTARA ---
+
+                        // 1. menu_produk
+                        .requestMatchers("/api/menu-produk", "/api/menu-produk/**").permitAll()
+
+                        // 2. desain_pesanan
+                        .requestMatchers("/api/desain-pesanan", "/api/desain-pesanan/**").permitAll()
+
+                        // 3. pesanan
+                        .requestMatchers("/api/pesanan", "/api/pesanan/**").permitAll()
+
+                        // 4. pesan_kontak
+                        .requestMatchers("/api/pesan-kontak", "/api/pesan-kontak/**").permitAll()
+
+                        // 5. user
+                        .requestMatchers("/api/user", "/api/user/**").permitAll()
+
+                        // 6. Buka jalur error agar Postman menampilkan 404 Not Found (bukan 403
+                        // Forbidden)
+                        .requestMatchers("/error").permitAll()
+
+                        // Endpoint lain di luar 5 tabel di atas akan tetap diblokir
+                        .anyRequest().authenticated());
 
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
