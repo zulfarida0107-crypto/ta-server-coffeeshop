@@ -22,4 +22,7 @@ public class MenuProduk {
 
     @Column(nullable = false)
     private String kategori;
+
+    @Column(name = "gambar", columnDefinition = "TEXT")
+    private String gambar;
 }
