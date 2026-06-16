@@ -50,5 +50,6 @@ CREATE TABLE `desain_pesanan` (
   `file_desain_url` TEXT,
   `keterangan` TEXT,
   `tanggal_upload` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `status_pesanan` VARCHAR(50) NOT NULL DEFAULT 'Baru',
   CONSTRAINT `fk_desain_pesanan` FOREIGN KEY (`id_pesanan`) REFERENCES `pesanan`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
