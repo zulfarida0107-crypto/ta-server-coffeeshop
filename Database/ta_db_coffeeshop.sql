@@ -18,8 +18,7 @@ CREATE TABLE `pesan_kontak` (
   `email` VARCHAR(255) NOT NULL,
   `subjek` VARCHAR(255) NOT NULL,
   `pesan` TEXT NOT NULL,
-  `tanggal_dikirim` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `sudah_dibalas` TINYINT(1) NOT NULL DEFAULT 0
+  `tanggal_dikirim` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 -- 3. Tabel Menu Produk (Master Data)
@@ -28,9 +27,7 @@ CREATE TABLE `menu_produk` (
   `nama_produk` VARCHAR(255) NOT NULL,
   `harga` DECIMAL(10,2) NOT NULL,
   `deskripsi` TEXT,
-  `kategori` VARCHAR(100) NOT NULL,
-  `gambar` TEXT,
-  `bagian` VARCHAR(100) NOT NULL DEFAULT 'Menu Kami'
+  `kategori` VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB;
 
 -- 4. Tabel Pesanan (Berelasi dengan Menu Produk)
