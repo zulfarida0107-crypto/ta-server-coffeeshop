@@ -27,7 +27,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 # ─────────────────────────────────────────────────────────
 # Konfigurasi
 # ─────────────────────────────────────────────────────────
-BASE_URL  = "http://ta-ci4-web-coffeeshop.test"
+BASE_URL  = "http://localhost:8081"
 HEADLESS  = False        # Ganti True untuk menjalankan tanpa jendela browser
 WAIT_SEC  = 10           # Timeout WebDriverWait (detik)
 
