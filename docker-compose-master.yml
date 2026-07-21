@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: coffeeshop_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: db_kantin2
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  backend:
+    build: .
+    container_name: coffeeshop_backend
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_kantin2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ../../xampp/htdocs/ta-ci4-web-coffeeshop
+      dockerfile: Dockerfile
+    container_name: coffeeshop_web
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      CI_ENVIRONMENT: development
+      database.default.hostname: db
+      database.default.database: db_kantin2
+      database.default.username: root
+      database.default.password: rootpassword
+      database.default.DBDriver: MySQLi
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
