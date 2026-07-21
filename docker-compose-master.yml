@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: db_kantin2
+      MYSQL_DATABASE: ta_db_coffeeshop
     ports:
       - "3306:3306"
     volumes:
@@ -22,9 +22,10 @@ services:
     container_name: coffeeshop_backend
     restart: always
     ports:
-      - "8081:8081"
+      - "8083:8083"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_kantin2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      PORT: 8083
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/ta_db_coffeeshop?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: rootpassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -43,7 +44,7 @@ services:
     environment:
       CI_ENVIRONMENT: development
       database.default.hostname: db
-      database.default.database: db_kantin2
+      database.default.database: ta_db_coffeeshop
       database.default.username: root
       database.default.password: rootpassword
       database.default.DBDriver: MySQLi
