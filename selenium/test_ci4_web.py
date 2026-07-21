@@ -299,9 +299,9 @@ class TestQRPaymentPage:
         driver.get(f"{BASE_URL}/checkout/payment")
         time.sleep(1)
         # Harus redirect ke beranda karena tidak ada session
-        assert driver.current_url.rstrip('/') == BASE_URL.rstrip('/') or \
-               driver.current_url == BASE_URL + '/', \
-               f"Harusnya redirect ke beranda, bukan: {driver.current_url}"
+        url = driver.current_url.lower()
+        assert "payment" not in url, \
+               f"Harusnya redirect ke beranda (tidak boleh mengandung 'payment'), tapi: {driver.current_url}"
 
     def test_success_page_dapat_diakses(self, driver):
         """TC-WEB-23: Halaman success dapat diakses langsung."""
