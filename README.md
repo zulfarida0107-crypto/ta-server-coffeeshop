@@ -46,39 +46,62 @@ Server backend Spring Boot ini menyediakan antarmuka API RESTful lengkap yang me
 - **Database:** MySQL
 - **Build Tool:** Maven
 
-## Panduan Instalasi & Menjalankan Project
+## Arsitektur Docker
 
-1. Pastikan Java Development Kit (JDK) versi 17+ telah terinstal di komputer Anda.
-2. Buat database MySQL baru bernama `db_coffeeshop` (atau sesuaikan dengan file `application.properties`).
-3. Clone repository ini ke direktori lokal Anda.
-4. Sesuaikan konfigurasi username dan password database MySQL Anda di file `src/main/resources/application.properties`.
-5. Jalankan server lokal melalui Maven Wrapper:
-   ```bash
-   # Windows (PowerShell)
-   .\mvnw.cmd spring-boot:run
-   
-   # Linux/macOS
-   ./mvnw spring-boot:run
-   ```
-6. Server backend akan aktif di alamat `http://localhost:8083`.
+Proyek ini telah dikontainerisasi menggunakan **Docker** untuk memastikan lingkungan pengembangan dan produksi yang konsisten. Sistem berjalan di atas tiga container utama yang saling terhubung dalam satu jaringan (network) Docker:
 
-## Deployment / Publikasi via GitHub
+1. **`ta-database-coffeeshop`**: Container MySQL (Port `3307:3306`) yang menyimpan seluruh data aplikasi.
+2. **`ta-server-coffeeshop`**: Container backend Spring Boot (Port `8083:8083`) yang terhubung langsung ke container database.
+3. **`ta-ci4-web-coffeeshop`**: Container frontend CodeIgniter 4 (Port `8080:80`) yang melayani antarmuka pelanggan dan berkomunikasi dengan server backend.
 
-Untuk mempublikasikan server backend Spring Boot secara online, Anda dapat menghubungkan repository GitHub Anda ke penyedia layanan cloud (seperti Render, Railway, Heroku, AWS, atau VPS):
+Dengan menggunakan `docker-compose`, seluruh environment dapat dibangun (build) dan dijalankan secara serentak tanpa perlu mengonfigurasi Apache, PHP, Java, atau MySQL secara manual di sistem operasi host.
 
-### Opsi 1: Integrasi Cloud Deployment (Render / Railway)
-1. Buat akun pada platform cloud deployment pilihan Anda (misalnya Render atau Railway).
-2. Hubungkan akun cloud tersebut dengan akun GitHub Anda.
-3. Buat layanan baru (Web Service) dan pilih repository `ta-server-coffeeshop` Anda.
-4. Tentukan perintah build dan start untuk Maven Spring Boot:
-   - Build Command: `./mvnw clean package -DskipTests`
-   - Start Command: `java -jar target/your-app-name-0.0.1-SNAPSHOT.jar` (sesuaikan nama file jar hasil build)
-5. Tambahkan variabel environment untuk koneksi database MySQL online (seperti url host, username, dan password database) pada panel konfigurasi cloud Anda.
+## Panduan Instalasi & Menjalankan Project (menggunakan Docker)
 
-### Opsi 2: Docker Containerization
-Anda dapat menambahkan file `Dockerfile` pada root repository untuk membungkus server backend Spring Boot ke dalam container Docker, mempermudah deployment ke VPS atau Google Cloud Run.
+Berikut adalah panduan lengkap menjalankan & mengelola sistem terintegrasi (Server, Web, dan Database) menggunakan **Command Prompt (CMD)** via Docker:
 
----
+### 1. 🚀 Menyalakan Seluruh Sistem
+
+Buka **Command Prompt (CMD)**, lalu ketik perintah ini:
+
+```cmd
+cd C:\Dokumen
+docker compose up -d --build
+```
+
+> **Penjelasan Perintah:**
+> - `cd C:\Dokumen` $\rightarrow$ Pindah ke folder lokasi Master Docker.
+> - `up -d` $\rightarrow$ Menyalakan seluruh container di background (agar CMD tidak terkunci).
+> - `--build` $\rightarrow$ Memastikan Docker mem-build versi kode terbaru dari Web & Server Anda.
+
+### 2. 📊 Cek Status Container
+
+Untuk melihat apakah semua container sudah aktif dan berjalan normal:
+
+```cmd
+docker compose ps
+```
+*(Anda akan melihat daftar container `ta-ci4-web-coffeeshop`, `ta-server-coffeeshop`, dan `ta-database-coffeeshop` berserta port-nya)*.
+
+### 3. 📜 Melihat Log Sistem (Real-time)
+
+Jika ingin melihat log aktivitas server (misal saat ada transaksi pesanan masuk):
+
+```cmd
+docker compose logs -f
+```
+*(Tekan `Ctrl + C` untuk keluar dari tampilan log)*.
+
+### 4. 🛑 Mematikan Seluruh Sistem
+
+Jika sudah selesai digunakan dan ingin mematikan container:
+
+```cmd
+cd C:\Dokumen
+docker compose down
+```
+
+
 
 ## Dokumentasi & Demo
 
@@ -90,3 +113,6 @@ Gunakan kolom di bawah ini untuk menambahkan tangkapan layar (screenshot), anima
 | **Koneksi Database MySQL** | ![Database HeidiSQL](documentation/database_heidisql.png) | Struktur tabel database `ta_db_coffeeshop` pada HeidiSQL: desain_pesanan, menu_produk, pesanan, pesan_kontak, user. |
 | **Log Aktivitas Server** | ![Log Aktivitas Server](documentation/log_aktivitas_server.png) | Tampilan log konsol saat server Spring Boot menerima request transaksi. |
 | **Cuplikan Kode Proteksi Endpoint (SecurityConfig)** | ![Security Config](documentation/snippet_security_config.png) | Logika filter keamanan berlapis JWT Spring Boot: endpoint publik CI4 & endpoint privat Flutter Dashboard. |
+| **Docker Build & Up** | ![Docker Build](documentation/docker_build.png) | Proses kompilasi image dan inisialisasi container secara serentak menggunakan `docker compose up -d --build`. |
+| **Status Container (CLI)** | ![Docker PS](documentation/docker_ps.png) | Verifikasi container yang berjalan (Web, Server, DB) beserta port mapping-nya melalui `docker compose ps`. |
+| **Docker Desktop UI** | ![Docker Desktop](documentation/docker_desktop.png) | Tampilan manajemen visual container, resource usage, dan logs melalui Docker Desktop. |
