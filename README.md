@@ -86,6 +86,6 @@ Gunakan kolom di bawah ini untuk menambahkan tangkapan layar (screenshot), anima
 
 | Fitur | Tampilan Dokumentasi | Deskripsi |
 | --- | --- | --- |
-| **Endpoint Swagger / API Docs** | *(Masukkan gambar di sini)* | Dokumentasi endpoint REST API yang tersedia pada server backend. |
+| **Endpoint Swagger / API Docs** | ![Postman 1](documentation/postman_api_docs_1.png) <br> ![Postman 2](documentation/postman_api_docs_2.png) <br> ![Postman 3](documentation/postman_api_docs_3.png) | Dokumentasi pengetesan endpoint REST API (User, Menu, Pesanan, Desain Custom, Kontak) menggunakan Postman. |
 | **Koneksi Database MySQL** | *(Masukkan gambar di sini)* | Struktur tabel database `db_coffeeshop` pada phpMyAdmin / DBeaver. |
 | **Log Aktivitas Server** | *(Masukkan gambar di sini)* | Tampilan log konsol saat server Spring Boot menerima request transaksi. |
