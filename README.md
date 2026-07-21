@@ -9,6 +9,36 @@ Classic Coffee Server Backend — A secure and high-performance Spring Boot REST
 - **Relational Integrity:** Validasi Foreign Key dan integritas relasi antar tabel (user, menu_produk, pesanan, dan desain_pesanan).
 - **CORS & Security:** Konfigurasi keamanan CORS untuk melayani request dari CodeIgniter 4 Web dan Flutter Client secara bersamaan.
 
+## Keterangan Operasi CRUD
+
+Server backend Spring Boot ini menyediakan antarmuka API RESTful lengkap yang mengelola operasi CRUD (Create, Read, Update, Delete) pada database MySQL untuk entitas berikut:
+
+1. **Entitas User (`/api/users`):**
+   - **Create:** Menambahkan user/administrator baru melalui request `POST /api/users`.
+   - **Read:** Mengambil daftar seluruh user (`GET /api/users`) atau user spesifik berdasarkan ID (`GET /api/users/{id}`).
+   - **Update:** Memperbarui informasi akun user (`PUT /api/users/{id}`).
+   - **Delete:** Menghapus akun user dari database (`DELETE /api/users/{id}`).
+2. **Entitas Menu Produk (`/api/menu-produk`):**
+   - **Create:** Menambahkan item menu kopi atau kue baru via `POST /api/menu-produk`.
+   - **Read:** Mendapatkan semua menu (`GET /api/menu-produk`) atau menu tertentu berdasarkan ID (`GET /api/menu-produk/{id}`).
+   - **Update:** Memperbarui nama, harga, deskripsi, atau kategori menu (`PUT /api/menu-produk/{id}`).
+   - **Delete:** Menghapus item menu dari database (`DELETE /api/menu-produk/{id}`).
+3. **Entitas Pesanan (`/api/pesanan`):**
+   - **Create:** Membuat pesanan pelanggan baru (`POST /api/pesanan`).
+   - **Read:** Mendapatkan daftar seluruh antrean pesanan (`GET /api/pesanan`) atau pesanan spesifik (`GET /api/pesanan/{id}`).
+   - **Update:** Mengubah status pengerjaan pesanan dan status pembayaran (`PUT /api/pesanan/{id}`).
+   - **Delete:** Membatalkan/menghapus pesanan dari sistem (`DELETE /api/pesanan/{id}`).
+4. **Entitas Desain Pesanan / Kue Custom (`/api/desain-pesanan`):**
+   - **Create:** Menyimpan pengiriman desain kue custom pelanggan (`POST /api/desain-pesanan`).
+   - **Read:** Mendapatkan seluruh kiriman desain kue (`GET /api/desain-pesanan`) atau desain spesifik (`GET /api/desain-pesanan/{id}`).
+   - **Update:** Memperbarui catatan pengerjaan atau status desain kue (`PUT /api/desain-pesanan/{id}`).
+   - **Delete:** Menghapus pesanan kue custom (`DELETE /api/desain-pesanan/{id}`).
+5. **Entitas Pesan Kontak (`/api/pesan-kontak`):**
+   - **Create:** Menerima pesan masukan/formulir kontak pelanggan (`POST /api/pesan-kontak`).
+   - **Read:** Menampilkan kotak masuk pesan pelanggan (`GET /api/pesan-kontak`).
+   - **Update:** Mengubah status pembacaan atau balasan pesan (`PUT /api/pesan-kontak/{id}`).
+   - **Delete:** Menghapus pesan masuk dari sistem (`DELETE /api/pesan-kontak/{id}`).
+
 ## Teknologi
 
 - **Framework:** Spring Boot (Java)
