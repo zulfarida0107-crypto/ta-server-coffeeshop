@@ -32,6 +32,22 @@ Classic Coffee Server Backend — A secure and high-performance Spring Boot REST
    ```
 6. Server backend akan aktif di alamat `http://localhost:8083`.
 
+## Deployment / Publikasi via GitHub
+
+Untuk mempublikasikan server backend Spring Boot secara online, Anda dapat menghubungkan repository GitHub Anda ke penyedia layanan cloud (seperti Render, Railway, Heroku, AWS, atau VPS):
+
+### Opsi 1: Integrasi Cloud Deployment (Render / Railway)
+1. Buat akun pada platform cloud deployment pilihan Anda (misalnya Render atau Railway).
+2. Hubungkan akun cloud tersebut dengan akun GitHub Anda.
+3. Buat layanan baru (Web Service) dan pilih repository `ta-server-coffeeshop` Anda.
+4. Tentukan perintah build dan start untuk Maven Spring Boot:
+   - Build Command: `./mvnw clean package -DskipTests`
+   - Start Command: `java -jar target/your-app-name-0.0.1-SNAPSHOT.jar` (sesuaikan nama file jar hasil build)
+5. Tambahkan variabel environment untuk koneksi database MySQL online (seperti url host, username, dan password database) pada panel konfigurasi cloud Anda.
+
+### Opsi 2: Docker Containerization
+Anda dapat menambahkan file `Dockerfile` pada root repository untuk membungkus server backend Spring Boot ke dalam container Docker, mempermudah deployment ke VPS atau Google Cloud Run.
+
 ---
 
 ## Dokumentasi & Demo
