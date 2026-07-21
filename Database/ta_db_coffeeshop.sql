@@ -39,7 +39,7 @@ CREATE TABLE `pesanan` (
   `total_harga` DECIMAL(10,2) NOT NULL,
   `status_pesanan` VARCHAR(50) NOT NULL,
   `tanggal_pesanan` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `detail_pesanan` TEXT DEFAULT '[]',
+  `detail_pesanan` TEXT,
   CONSTRAINT `fk_pesanan_produk` FOREIGN KEY (`id_produk`) REFERENCES `menu_produk`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
