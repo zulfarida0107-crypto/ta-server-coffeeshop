@@ -2,6 +2,10 @@
 
 Classic Coffee Server Backend — A secure and high-performance Spring Boot REST API serving as the central coordinator for user management, ordering, custom product design review, and database integration.
 
+## 📺 Demo Video
+
+[![Demo Video Proyek Kedai Kopi](https://img.youtube.com/vi/i2iFWwCDxsc/0.jpg)](https://www.youtube.com/watch?v=i2iFWwCDxsc)
+
 ## Fitur Utama
 
 - **RESTful API Service:** Endpoint lengkap untuk manajemen pengguna, data produk menu, pengelolaan pesanan pelanggan, serta review kue custom.
